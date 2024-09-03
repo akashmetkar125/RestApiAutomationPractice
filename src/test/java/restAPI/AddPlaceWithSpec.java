@@ -49,9 +49,10 @@ RequestSpecification reqSpec =new RequestSpecBuilder().setBaseUri("https://rahul
 ResponseSpecification respSpec =  new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 
   RequestSpecification request = given().log().all().spec(reqSpec).body(p);
-  String response = request.log().all().when().post("/maps/api/place/add/json").then().log().all().spec(respSpec).extract().response().asString();
+  Response response = request.log().all().when().post("/maps/api/place/add/json")
+		  .then().log().all().spec(respSpec).extract().response();
 
-  JsonPath js = new JsonPath(response);
+  JsonPath js = new JsonPath(response.asString());
   System.out.println(js);
   String Id =js.get("id");
   System.out.println(Id);
